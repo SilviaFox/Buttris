@@ -23,7 +23,7 @@ public class PresetSettings : MonoBehaviour
         
         gameSettings.SetWidthAndHeight(10, 24, true);
         gameSettings.SetGameplayOptions(false, false, false, false, false);
-        gameSettings.SetGameSpeed(1, 0.3f);
+        gameSettings.SetGameSpeed(1);
         gameSettings.SetModeName("Classic");
 
         LoadGame();
@@ -35,7 +35,7 @@ public class PresetSettings : MonoBehaviour
 
         gameSettings.SetWidthAndHeight(10, 20, true);
         gameSettings.SetGameplayOptions(true, true, true, false, true);
-        gameSettings.SetGameSpeed(0.6f, 0.1f);
+        gameSettings.SetGameSpeed(0.6f);
         gameSettings.SetModeName("Buttris");
 
         LoadGame();

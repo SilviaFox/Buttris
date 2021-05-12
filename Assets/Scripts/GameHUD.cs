@@ -14,6 +14,9 @@ public class GameHUD : MonoBehaviour
     [Space]
     [SerializeField] Image[] nextIcons;
     [SerializeField] Sprite[] nextIconSprites;
+    [Space]
+    [SerializeField] Text timer;
+    Animator nextIconAnimator;
     
 
     private void Start()
@@ -24,8 +27,19 @@ public class GameHUD : MonoBehaviour
             holdIcon.transform.parent.gameObject.SetActive(false);
         }
 
+        nextIconAnimator = nextIcons[0].transform.parent.gameObject.GetComponent<Animator>();
         holdIconAnimator = holdIcon.gameObject.GetComponent<Animator>();
         UpdateNextIcons(GameManager.pieceQueue.ToArray());
+    }
+
+    void Update()
+    {
+
+        if (GameManager.visualTimerMinutes == 0)
+            timer.text = GameManager.visualTimerSeconds.ToString();
+        else
+            timer.text = GameManager.visualTimerMinutes.ToString() + " : " + 
+            (GameManager.visualTimerSeconds < 10? "0" + GameManager.visualTimerSeconds.ToString() : GameManager.visualTimerSeconds.ToString());
     }
 
     public void AddToScore(int value)
@@ -43,7 +57,7 @@ public class GameHUD : MonoBehaviour
     {
         holdIcon.sprite = newSprite;
         
-        holdIconAnimator.Play("HoldSwitch");
+        holdIconAnimator.Play("HoldSwitch", -1, 0);
     }
 
     public void UpdateNextIcons(int[] pieces)
@@ -52,10 +66,7 @@ public class GameHUD : MonoBehaviour
         {
             nextIcons[i].sprite = nextIconSprites[pieces[i + 1]];
         }
+        nextIconAnimator.Play("NextIconUpdate", -1, 0);
     }
 
-    public void ResetHoldIconAnimation()
-    {
-        holdIconAnimator.Play("HoldIdle");
-    }
 }

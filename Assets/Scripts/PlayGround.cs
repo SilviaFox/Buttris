@@ -15,7 +15,7 @@ public class PlayGround : MonoBehaviour
         transform.position = new Vector3(transform.localScale.x /2, transform.localScale.y / 2);
         GameManager.width = Mathf.RoundToInt(transform.localScale.x);
         GameManager.height = Mathf.RoundToInt(transform.localScale.y);
-        GameManager.spawnPoint = new Vector3(Mathf.RoundToInt(GameManager.width / 2), GameManager.height + 1.5f);
+        GameManager.spawnPoint = new Vector3(Mathf.FloorToInt(GameManager.width / 2), GameManager.height + 1.5f);
 
         if (GameSettings.enableGrid)
             for (int x = 0; x < GameManager.width; x++)

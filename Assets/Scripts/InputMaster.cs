@@ -73,6 +73,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0789bb0-5375-46fd-80a8-9766453e72e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -152,6 +160,28 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Hold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""520dfb1f-5d71-4749-bd23-174f7a7d41ac"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2179e365-439f-4dd3-a2a5-5dfd632d7f27"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -194,6 +224,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Gameplay_RotateL = m_Gameplay.FindAction("Rotate L", throwIfNotFound: true);
         m_Gameplay_RotateR = m_Gameplay.FindAction("Rotate R", throwIfNotFound: true);
         m_Gameplay_Hold = m_Gameplay.FindAction("Hold", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Start = m_Menu.FindAction("Start", throwIfNotFound: true);
@@ -253,6 +284,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_RotateL;
     private readonly InputAction m_Gameplay_RotateR;
     private readonly InputAction m_Gameplay_Hold;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @InputMaster m_Wrapper;
@@ -264,6 +296,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @RotateL => m_Wrapper.m_Gameplay_RotateL;
         public InputAction @RotateR => m_Wrapper.m_Gameplay_RotateR;
         public InputAction @Hold => m_Wrapper.m_Gameplay_Hold;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -294,6 +327,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Hold.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHold;
                 @Hold.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHold;
                 @Hold.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHold;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -319,6 +355,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Hold.started += instance.OnHold;
                 @Hold.performed += instance.OnHold;
                 @Hold.canceled += instance.OnHold;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -365,6 +404,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnRotateL(InputAction.CallbackContext context);
         void OnRotateR(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8015783048544961711}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -1, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8015783049056899534}
@@ -223,7 +223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8015783049593730806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8015783049056899534}
@@ -305,7 +305,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8015783049692296333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8015783049056899534}
@@ -409,7 +409,6 @@ MonoBehaviour:
   isFastDropping: 0
   isHardDropping: 0
   intReg: 0
-  rotType: 1
   rig: {fileID: 8015783049056899535}
-  ghost: {fileID: 8015783050047318660, guid: 28dd4f3ac3525a04ab3af3957e37a56b, type: 3}
+  ghost: {fileID: 8015783050047318660, guid: 154d8fd242a889b409872be3f7b67a2f, type: 3}
   holdSprite: {fileID: -5459075771309423164, guid: 1b76e4d2dbcb6cd4c9afdb362de1e75d, type: 3}

@@ -5,14 +5,20 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
 
-    [SerializeField] GameObject[] tetrominoes; // List of pieces
+    [SerializeField] GameObject[] tetrominos; // List of pieces
 
     [SerializeField] GameObject deathScreen;
+    [SerializeField] GameObject pauseScreen;
+    public static GameObject currentPauseScreen;
 
     // These get set by Custom Settings
-    public static int width = 15, height = 30;
+    public static int width = 12, height = 20;
     public static float dropTime;
     public static float fastDropTime;
+
+    bool enableTimer;
+    float timer;
+    public static int visualTimerSeconds, visualTimerMinutes;
 
     // Spawn point is halfway on the board, 1.5 units above height
     public static Vector3 spawnPoint;
@@ -38,8 +44,13 @@ public class GameManager : MonoBehaviour
     public static GameValues values = new GameValues();
     public static GameHUD hUD;
 
+    
+
+
     private void Awake()
     {
+        ResetTimer();
+
         dropTime = GameSettings.dropTime;
         fastDropTime = GameSettings.fastDropTime;
 
@@ -52,9 +63,54 @@ public class GameManager : MonoBehaviour
         SevenBagGenerator();
     }
 
+    void Update()
+    {
+        if (enableTimer)
+            Timer();
+    }
+
+    void Timer()
+    {
+        timer += Time.deltaTime;
+        visualTimerSeconds = Mathf.FloorToInt(timer);
+
+        if (visualTimerSeconds == 60)
+        {
+            timer = 0;
+            visualTimerSeconds = 0;
+            visualTimerMinutes += 1;
+        }
+    }
+
+    void ResetTimer()
+    {
+        enableTimer = true;
+        timer = 0;
+        visualTimerSeconds = 0;
+        visualTimerMinutes = 0;
+    }
+
     void SevenBagGenerator()
     {
         sevenBag.Shuffle(6);
+
+        // Make sure the maximum gap between 2 I minos is 12
+        for (int i = 5; i < sevenBag.Length; i++)
+        {
+            if (sevenBag[i] == 0)
+            {
+                int iReplace = Random.Range(0,6);
+                int newPiece = sevenBag[iReplace];
+
+                sevenBag[i] = newPiece;
+                sevenBag[iReplace] = 0;
+
+                break;
+            }
+
+        }
+
+
         // Queue pieces
         for (int i = 0; i < sevenBag.Length; i++)
         {
@@ -67,7 +123,11 @@ public class GameManager : MonoBehaviour
     {
         gameEnded = true;
         InputScript.input.Gameplay.Disable();
+        enableTimer = false;
         Debug.Log("Game Over");
+
+        values.finalTimeSeconds = visualTimerSeconds;
+        values.finalTimeMinutes = visualTimerMinutes;
 
         Instantiate(deathScreen);
     }
@@ -84,10 +144,10 @@ public class GameManager : MonoBehaviour
     public void SwapHeldBlock(int block)
     {
         int newHeldBlock = block;
-        Instantiate(tetrominoes[heldBlock], spawnPoint, new Quaternion()).GetComponent<BlockLogic>().intReg = heldBlock;
-        heldBlock = newHeldBlock;
+        Instantiate(tetrominos[heldBlock], spawnPoint, new Quaternion()).GetComponent<BlockLogic>().intReg = heldBlock;
 
-        useHeld = false;
+        heldBlock = newHeldBlock;
+        
         allowHold = false;
     }
 
@@ -116,17 +176,17 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 scoreToAdd += (100 * values.level);
-                audioManager.Play("ClearLine1");
+                audioManager.Play("Single");
                 bTBTetris = false;
             break;
             case 2:
                 scoreToAdd += (300 * values.level);
-                audioManager.Play("ClearLine2");
+                audioManager.Play("Double");
                 bTBTetris = false;
             break;
             case 3:
                 scoreToAdd += (500 * values.level);
-                audioManager.Play("ClearLine3");
+                audioManager.Play("Triple");
                 bTBTetris = false;
             break;
             case 4:
@@ -137,7 +197,7 @@ public class GameManager : MonoBehaviour
                     }
                 else
                     scoreToAdd += (800 * 3/2 * values.level);
-                audioManager.Play("ClearLine4");
+                audioManager.Play("Tetris");
             break;
         }
 
@@ -191,19 +251,32 @@ public class GameManager : MonoBehaviour
     {
         allowHold = true; // Reenable ability to hold pieces
 
-        if (!useHeld)
-        {
-            int intForBlock = 0;
+        int intForBlock = 0;
 
-            if (GameSettings.trueRandom) // if using true random
-                intForBlock = Random.Range(0,tetrominoes.Length);
-            else
-                intForBlock = pieceQueue.Dequeue();
+        
+        if (GameSettings.trueRandom) // if using true random
+            intForBlock = Random.Range(0,tetrominos.Length);
+        else
+            intForBlock = pieceQueue.Dequeue();
 
-            Instantiate(tetrominoes[intForBlock], spawnPoint, new Quaternion()).GetComponent<BlockLogic>().intReg = intForBlock;
+        Instantiate(tetrominos[intForBlock], spawnPoint, new Quaternion()).GetComponent<BlockLogic>().intReg = intForBlock;
 
-            if (pieceQueue.Count < 7)
-                SevenBagGenerator();
-        }
+        if (pieceQueue.Count < 7)
+            SevenBagGenerator();
+        
+    }
+
+    public void Pause()
+    {
+        audioManager.Play("Pause");
+        currentPauseScreen = Instantiate(pauseScreen);
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        Destroy(currentPauseScreen);
+        currentPauseScreen = null;
     }
 }

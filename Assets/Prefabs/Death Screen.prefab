@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 2618358727636190580}
   - component: {fileID: 2618358727636190583}
   - component: {fileID: 2618358727636190582}
+  - component: {fileID: 6706570054361562374}
   m_Layer: 5
   m_Name: Death Screen
   m_TagString: Untagged
@@ -331,6 +332,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6706570054361562374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618358727636190585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c335eaddfb0d64a95fd31f0eb58161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: EndGame
 --- !u!1 &2618358727902212485
 GameObject:
   m_ObjectHideFlags: 0

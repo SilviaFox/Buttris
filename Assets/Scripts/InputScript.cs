@@ -4,12 +4,13 @@ public class InputScript : MonoBehaviour
 {
 
     public static InputMaster input;
+    GameManager gameManager;
     
     // Start is called before the first frame update
     void Start()
     {
         input = new InputMaster();
-
+        gameManager = FindObjectOfType<GameManager>();
         // Input
 
         //Movement
@@ -33,12 +34,14 @@ public class InputScript : MonoBehaviour
 
         if (GameSettings.allowHold)
             input.Gameplay.Hold.started += ctx => {if(GameManager.allowHold) GameManager.currentBlock.Hold();};
+        
+        input.Gameplay.Pause.started += ctx => {if (GameManager.currentPauseScreen == null) gameManager.Pause(); else gameManager.Unpause();};
     }
 
     void Update()
     {
         // Update the current block every frame, unless there is no block to use, in which case, spawn a new one
-        if (GameManager.currentBlock != null )
+        if (GameManager.currentBlock != null)
             GameManager.currentBlock.BlockUpdate();
         else if (!GameManager.gameEnded && !GameManager.useHeld)
             FindObjectOfType<GameManager>().SpawnBlock();

@@ -47,9 +47,8 @@ MonoBehaviour:
   isFastDropping: 0
   isHardDropping: 0
   intReg: 0
-  rotType: 1
   rig: {fileID: 12397778943337120}
-  ghost: {fileID: 12397777516714475, guid: 339e642182bf7bc40ade223d6f12a30d, type: 3}
+  ghost: {fileID: 12397777516714475, guid: fc7f2bcd681d4f147861bde4be5888b5, type: 3}
   holdSprite: {fileID: -7791455267512016047, guid: 1b76e4d2dbcb6cd4c9afdb362de1e75d, type: 3}
 --- !u!1 &12397778303453154
 GameObject:
@@ -158,7 +157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12397778406213017}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 12397778943337121}

@@ -4,4 +4,6 @@ public class GameValues
     public int linesCleared;
     public int heldPiece;
     public int level;
+
+    public int finalTimeSeconds, finalTimeMinutes;
 }
