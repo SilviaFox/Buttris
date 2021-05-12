@@ -22,7 +22,7 @@ public class PresetSettings : MonoBehaviour
         gameSettings = new GameSettings();
         
         gameSettings.SetWidthAndHeight(10, 24, true);
-        gameSettings.SetGameplayOptions(false, false, false, false, false);
+        gameSettings.SetGameplayOptions(false, false, false, true, false);
         gameSettings.SetGameSpeed(1);
         gameSettings.SetModeName("Classic");
 

@@ -1,7 +1,5 @@
 public class GameSettings
 {
-    public static int playGroundWidth = 12, playGroundHeight = 20;
-
     public static bool allowHardDrop = true, allowHold = true, showNext = true, trueRandom = false, enableGhost = true;
 
     public static float dropTime = 1, fastDropTime = 0.2f;
@@ -15,8 +13,8 @@ public class GameSettings
 
     public void SetWidthAndHeight(int width, int height, bool grid)
     {
-        playGroundWidth = width;
-        playGroundHeight = height;
+        GameManager.width = width;
+        GameManager.height = height;
         enableGrid = grid;
     }
 

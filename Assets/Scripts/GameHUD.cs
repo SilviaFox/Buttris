@@ -27,9 +27,15 @@ public class GameHUD : MonoBehaviour
             holdIcon.transform.parent.gameObject.SetActive(false);
         }
 
+        if (!GameSettings.showNext)
+        {
+            nextIcons[0].transform.parent.transform.parent.gameObject.SetActive(false);
+        }
+
         nextIconAnimator = nextIcons[0].transform.parent.gameObject.GetComponent<Animator>();
         holdIconAnimator = holdIcon.gameObject.GetComponent<Animator>();
-        UpdateNextIcons(GameManager.pieceQueue.ToArray());
+        if (GameSettings.showNext)
+            UpdateNextIcons(GameManager.pieceQueue.ToArray());
     }
 
     void Update()
@@ -62,8 +68,10 @@ public class GameHUD : MonoBehaviour
 
     public void UpdateNextIcons(int[] pieces)
     {
+        
         for (int i = 0; i < nextIcons.Length; i++)
         {
+            Debug.Log("recieved" + pieces[i]);
             nextIcons[i].sprite = nextIconSprites[pieces[i + 1]];
         }
         nextIconAnimator.Play("NextIconUpdate", -1, 0);

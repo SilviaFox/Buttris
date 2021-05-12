@@ -92,29 +92,40 @@ public class GameManager : MonoBehaviour
 
     void SevenBagGenerator()
     {
-        sevenBag.Shuffle(6);
-
-        // Make sure the maximum gap between 2 I minos is 12
-        for (int i = 5; i < sevenBag.Length; i++)
+        if (!GameSettings.trueRandom) // 7Bag
         {
-            if (sevenBag[i] == 0)
+            sevenBag.Shuffle(6);
+
+            // Make sure the maximum gap between 2 I minos is 12
+            for (int i = 5; i < sevenBag.Length; i++)
             {
-                int iReplace = Random.Range(0,6);
-                int newPiece = sevenBag[iReplace];
+                if (sevenBag[i] == 0)
+                {
+                    int iReplace = Random.Range(0,6);
+                    int newPiece = sevenBag[iReplace];
 
-                sevenBag[i] = newPiece;
-                sevenBag[iReplace] = 0;
+                    sevenBag[i] = newPiece;
+                    sevenBag[iReplace] = 0;
 
-                break;
+                    break;
+                }
+
             }
 
+
+            // Queue pieces
+            for (int i = 0; i < sevenBag.Length; i++)
+            {
+                pieceQueue.Enqueue(sevenBag[i]);
+            }
         }
-
-
-        // Queue pieces
-        for (int i = 0; i < sevenBag.Length; i++)
+        else // Full Random
         {
-            pieceQueue.Enqueue(sevenBag[i]);
+            // Pick a random piece and add it to the queue on every loop
+            for (int i = 0; i < sevenBag.Length; i++)
+            {
+                pieceQueue.Enqueue(Random.Range(0,tetrominos.Length));
+            }
         }
         
     }
@@ -253,11 +264,7 @@ public class GameManager : MonoBehaviour
 
         int intForBlock = 0;
 
-        
-        if (GameSettings.trueRandom) // if using true random
-            intForBlock = Random.Range(0,tetrominos.Length);
-        else
-            intForBlock = pieceQueue.Dequeue();
+        intForBlock = pieceQueue.Dequeue();
 
         Instantiate(tetrominos[intForBlock], spawnPoint, new Quaternion()).GetComponent<BlockLogic>().intReg = intForBlock;
 

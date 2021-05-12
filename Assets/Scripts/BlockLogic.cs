@@ -109,7 +109,8 @@ public class BlockLogic : MonoBehaviour
         else
             GameManager.audioManager.Play("Landing");
         
-        GameManager.hUD.UpdateNextIcons(GameManager.pieceQueue.ToArray());
+        if (GameSettings.showNext)
+            GameManager.hUD.UpdateNextIcons(GameManager.pieceQueue.ToArray());
         GameManager.useHeld = false;
 
         Destroy(currentGhost);
@@ -151,7 +152,7 @@ public class BlockLogic : MonoBehaviour
                 rotInfo.valid = false;
                 return;
             }
-            else if (subBlock.transform.position.x >= GameSettings.playGroundWidth) // If subblock is going past the right boundary
+            else if (subBlock.transform.position.x >= GameManager.width) // If subblock is going past the right boundary
             {
                 rotInfo.xAdjustment = -1;
                 rotInfo.valid = false;
@@ -203,7 +204,8 @@ public class BlockLogic : MonoBehaviour
             {
                 GameManager.currentBlock = null;
                 GameManager.SetHeldBlock(intReg);
-                GameManager.hUD.UpdateNextIcons(GameManager.pieceQueue.ToArray());
+                if (GameSettings.showNext)
+                    GameManager.hUD.UpdateNextIcons(GameManager.pieceQueue.ToArray());
             }
         else // All proceeding holds
         {
@@ -246,9 +248,9 @@ public class BlockLogic : MonoBehaviour
             foreach (Transform subBlock in rig.transform)
             {
                 // initially check position in relation to the playground, to avoid errors
-                if (subBlock.position.x < 0 || subBlock.position.x >= GameSettings.playGroundWidth || Mathf.FloorToInt(subBlock.position.y) < 0)
+                if (subBlock.position.x < 0 || subBlock.position.x >= GameManager.width || Mathf.FloorToInt(subBlock.position.y) < 0)
                     invalidRotation = true;
-                else if(Mathf.FloorToInt(subBlock.position.y) < GameSettings.playGroundHeight && gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] != null)
+                else if(Mathf.FloorToInt(subBlock.position.y) < GameManager.height && gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] != null)
                     invalidRotation = true;
                         
             }
@@ -261,9 +263,9 @@ public class BlockLogic : MonoBehaviour
         }
 
         if (rotationDirection == "right")
-            rig.transform.eulerAngles -= new Vector3(0,0,90);
-        else
             rig.transform.eulerAngles += new Vector3(0,0,90);
+        else
+            rig.transform.eulerAngles -= new Vector3(0,0,90);
 
         return !invalidRotation;
         
@@ -285,31 +287,36 @@ public class BlockLogic : MonoBehaviour
 
     public void RotateLeft()
     {
+        string previousRotation = "";
         
         switch (rotationState)
         {
             case "0":
+                previousRotation = "0";
                 rotationState = "L";
                 wallKickTests = iPiece? SRSWallKickTests.iZeroL : SRSWallKickTests.ZeroL;
             break;
 
             case "L":
+                previousRotation = "L";
                 rotationState = "2";
                 wallKickTests = iPiece? SRSWallKickTests.iLTwo : SRSWallKickTests.LTwo;
             break;
 
             case "2":
+                previousRotation = "2";
                 rotationState = "R";
                 wallKickTests = iPiece? SRSWallKickTests.iTwoR : SRSWallKickTests.TwoR;
             break;
 
             case "R":
+                previousRotation = "R";
                 rotationState = "0";
                 wallKickTests = iPiece? SRSWallKickTests.iRZero : SRSWallKickTests.RZero;
             break;
         }
 
-        rig.transform.eulerAngles -= new Vector3(0,0,90);
+        rig.transform.eulerAngles += new Vector3(0,0,90);
 
         // CheckRotation("left");
         // while (!rotInfo.valid)
@@ -320,9 +327,11 @@ public class BlockLogic : MonoBehaviour
 
         if (SuperRotationSystem("left"))
         {
-            rig.transform.eulerAngles -= new Vector3(0,0,90);
+            rig.transform.eulerAngles += new Vector3(0,0,90);
             GameManager.audioManager.Play("Rotate");
         }   
+        else
+            rotationState = previousRotation;
 
 
         if (GameSettings.enableGhost)
@@ -332,31 +341,36 @@ public class BlockLogic : MonoBehaviour
 
     public void RotateRight()
     {
+        string previousRotation = "";
 
         switch (rotationState)
         {
             case "0":
+                previousRotation = "0";
                 rotationState = "R";
                 wallKickTests = iPiece? SRSWallKickTests.iZeroR : SRSWallKickTests.ZeroR;
             break;
 
             case "R":
+                previousRotation = "R";
                 rotationState = "2";
                 wallKickTests = iPiece? SRSWallKickTests.iRTwo : SRSWallKickTests.RTwo;
             break;
 
             case "2":
+                previousRotation = "2";
                 rotationState = "L";
                 wallKickTests = iPiece? SRSWallKickTests.iTwoL : SRSWallKickTests.TwoL;
             break;
 
             case "L":
+                previousRotation = "L";
                 rotationState = "0";
                 wallKickTests = iPiece? SRSWallKickTests.iLZero : SRSWallKickTests.LZero;
             break;
         }
         
-        rig.transform.eulerAngles += new Vector3(0,0,90);
+        rig.transform.eulerAngles -= new Vector3(0,0,90);
 
         // CheckRotation("right");
         // while (!rotInfo.valid)
@@ -367,9 +381,11 @@ public class BlockLogic : MonoBehaviour
 
         if (SuperRotationSystem("right"))
         {
-            rig.transform.eulerAngles += new Vector3(0,0,90);
+            rig.transform.eulerAngles -= new Vector3(0,0,90);
             GameManager.audioManager.Play("Rotate");
         }   
+        else
+            rotationState = previousRotation;
 
         
         

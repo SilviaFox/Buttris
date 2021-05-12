@@ -9,7 +9,7 @@ public class PlayGround : MonoBehaviour
     void Awake()
     {
         
-        transform.localScale = new Vector3(GameSettings.playGroundWidth, GameSettings.playGroundHeight);
+        transform.localScale = new Vector3(GameManager.width, GameManager.height);
     
 
         transform.position = new Vector3(transform.localScale.x /2, transform.localScale.y / 2);
@@ -27,8 +27,8 @@ public class PlayGround : MonoBehaviour
             }
 
         Camera cam = FindObjectOfType<Camera>();
-        cam.orthographicSize = GameSettings.playGroundHeight / 2 + 2;
-        cam.transform.position = new Vector3(transform.position.x, GameSettings.playGroundHeight / 2, -10);
+        cam.orthographicSize = GameManager.height / 2 + 2;
+        cam.transform.position = new Vector3(transform.position.x, GameManager.height / 2, -10);
     }
 
 }
