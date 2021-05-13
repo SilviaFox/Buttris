@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
     public void ClearLines()
     {
+        
         int clearedLines = 0;
         for (int y = 0; y < height; y++) // Check the Y axis
         {

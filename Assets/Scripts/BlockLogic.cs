@@ -10,6 +10,8 @@ public class BlockLogic : MonoBehaviour
     [HideInInspector] public RotationInformation rotInfo; // Info about rotation and if it is valid
     [HideInInspector] public int intReg;
     float timer = 0f; // Timer that counts for every move
+    bool isLockChecking;
+    bool movedDuringCheck;
 
     GameManager gameManager;
     
@@ -89,18 +91,40 @@ public class BlockLogic : MonoBehaviour
             timer += Time.deltaTime;
 
             // Drop Piece, if fast dropping, then use fast drop timer
-            if (timer > (isFastDropping? GameManager.fastDropTime : GameManager.dropTime))
+            
+            if (!isLockChecking && timer > (isFastDropping? GameManager.fastDropTime : GameManager.dropTime))
                 Drop();
+            else if (isLockChecking && !isFastDropping && timer > GameManager.dropTime + (movedDuringCheck? GameSettings.lockDelay : 0))
+                {
+                // Drop();
+                TryLock();}
+            else if (isLockChecking && isFastDropping && timer > GameManager.fastDropTime)
+                {
+                // Drop();
+                TryLock();}
         }
 
         else{
-            Drop();
+            if (!isLockChecking)
+                Drop();
+            else
+                RegisterBlock();
+        }
+    }
+
+
+    void TryLock()
+    {
+        Drop();
+        if (!CheckValid())
+        {
+            transform.position += new Vector3(0,1);
+            RegisterBlock();
         }
     }
 
     void RegisterBlock()
     {
-
         if (isHardDropping)
         {
             GameManager.audioManager.Play("Hard Drop End");
@@ -123,6 +147,9 @@ public class BlockLogic : MonoBehaviour
             else if (!GameManager.gameEnded)
                 gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] = subBlock;
         }
+
+        GameManager.currentBlock = null;
+        gameManager.ClearLines();
     }
 
     bool CheckValid() // Check if move is valid
@@ -180,17 +207,13 @@ public class BlockLogic : MonoBehaviour
         }
         else if (isHardDropping)
             GameManager.hUD.AddToScore(2);
-        
-
 
         transform.position -= new Vector3(0,1);
 
-        if (!CheckValid() && rotInfo.valid)
+        if (!isLockChecking && !CheckValid() && rotInfo.valid)
         {
             transform.position += new Vector3(0,1); // if move is invalid, place the block
-            RegisterBlock();
-            GameManager.currentBlock = null;
-            gameManager.ClearLines();
+            isLockChecking = true;
         }
 
         timer = 0; // Reset timer every move
@@ -225,11 +248,17 @@ public class BlockLogic : MonoBehaviour
 
         GameManager.audioManager.Play("Move");
 
+        if (isLockChecking)
+
+
+
+
         if (!CheckValid())
             transform.position += new Vector3(1,0);
         
         if (GameSettings.enableGhost)
             UpdateGhost();
+
     }
 
     bool SuperRotationSystem(string rotationDirection)
