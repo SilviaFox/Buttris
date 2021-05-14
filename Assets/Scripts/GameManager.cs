@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
 
     // Current Block
     public static BlockLogic currentBlock;
-    public static AudioManager audioManager;
 
     public static bool gameEnded; // If true, the game has ended
 
@@ -54,7 +53,7 @@ public class GameManager : MonoBehaviour
         dropTime = GameSettings.dropTime;
         fastDropTime = GameSettings.fastDropTime;
 
-        audioManager = FindObjectOfType<AudioManager>();
+        AudioManager.instance = FindObjectOfType<AudioManager>();
         hUD = FindObjectOfType<GameHUD>();
 
         // Initialize the piece queue.
@@ -70,24 +69,53 @@ public class GameManager : MonoBehaviour
     }
 
     void Timer()
-    {
-        timer += Time.deltaTime;
-        visualTimerSeconds = Mathf.FloorToInt(timer);
-
-        if (visualTimerSeconds == 60)
+    {   
+        if (GameSettings.gameTypeName != "Ultra")
         {
-            timer = 0;
-            visualTimerSeconds = 0;
-            visualTimerMinutes += 1;
+                timer += Time.deltaTime;
+                visualTimerSeconds = Mathf.FloorToInt(timer);
+
+                if (visualTimerSeconds == 60)
+                {
+                    timer = 0;
+                    visualTimerSeconds = 0;
+                    visualTimerMinutes ++;}
+            }
+        else
+        {
+            timer -= Time.deltaTime;
+            visualTimerSeconds = Mathf.FloorToInt(timer);
+
+            if (visualTimerSeconds < 0)
+            {   
+                timer = 60;
+                visualTimerMinutes --;
+            }
+
+            if (visualTimerMinutes < 0)
+            {
+                visualTimerMinutes = 0;
+                Fail();
+            }
         }
     }
 
     void ResetTimer()
     {
-        enableTimer = true;
-        timer = 0;
-        visualTimerSeconds = 0;
-        visualTimerMinutes = 0;
+        if (GameSettings.gameTypeName != "Ultra")
+        {
+            enableTimer = true;
+            timer = 0;
+            visualTimerSeconds = 0;
+            visualTimerMinutes = 0;
+        }
+        else
+        {
+            enableTimer = true;
+            timer = 60;
+            visualTimerSeconds = 0;
+            visualTimerMinutes = GameSettings.countDownTime - 1;
+        }
     }
 
     void SevenBagGenerator()
@@ -132,6 +160,9 @@ public class GameManager : MonoBehaviour
 
     public void Fail()
     {
+        if (GameSettings.gameTypeName == "Ultra")
+            visualTimerSeconds = 0;
+
         gameEnded = true;
         InputScript.input.Gameplay.Disable();
         enableTimer = false;
@@ -164,8 +195,8 @@ public class GameManager : MonoBehaviour
 
     public void ClearLines()
     {
-        
         int clearedLines = 0;
+        
         for (int y = 0; y < height; y++) // Check the Y axis
         {
             while (IsLineComplete(y))
@@ -177,6 +208,20 @@ public class GameManager : MonoBehaviour
         }
  
         ScoreFromLines(clearedLines); 
+        CheckWinCondition();
+    }
+
+    void CheckWinCondition()
+    {
+        switch (GameSettings.gameTypeName)
+        {
+            
+            case "Sprint":
+                if (values.linesCleared >= GameSettings.lineClearWinCondition)
+                    Fail();
+            break;
+
+        }
     }
 
     void ScoreFromLines(int clearedLines)
@@ -188,18 +233,21 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 scoreToAdd += (100 * values.level);
-                audioManager.Play("Single");
+                AudioManager.instance.Play("Single");
                 bTBTetris = false;
+                GameManager.hUD.AddToScore(scoreToAdd);
             break;
             case 2:
                 scoreToAdd += (300 * values.level);
-                audioManager.Play("Double");
+                AudioManager.instance.Play("Double");
                 bTBTetris = false;
+                GameManager.hUD.AddToScore(scoreToAdd);
             break;
             case 3:
                 scoreToAdd += (500 * values.level);
-                audioManager.Play("Triple");
+                AudioManager.instance.Play("Triple");
                 bTBTetris = false;
+                GameManager.hUD.AddToScore(scoreToAdd);
             break;
             case 4:
                 if (!bTBTetris)
@@ -209,7 +257,8 @@ public class GameManager : MonoBehaviour
                     }
                 else
                     scoreToAdd += (800 * 3/2 * values.level);
-                audioManager.Play("Tetris");
+                AudioManager.instance.Play("Tetris");
+                GameManager.hUD.AddToScore(scoreToAdd);
             break;
         }
 
@@ -276,13 +325,15 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        audioManager.Play("Pause");
+        InputScript.input.Gameplay.Disable();
+        AudioManager.instance.Play("Pause");
         currentPauseScreen = Instantiate(pauseScreen);
         Time.timeScale = 0;
     }
 
     public void Unpause()
     {
+        InputScript.input.Gameplay.Enable();
         Time.timeScale = 1;
         Destroy(currentPauseScreen);
         currentPauseScreen = null;

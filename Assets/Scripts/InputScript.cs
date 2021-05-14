@@ -10,7 +10,7 @@ public class InputScript : MonoBehaviour
     void Start()
     {
         input = new InputMaster();
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GetComponent<GameManager>();
         // Input
 
         //Movement
@@ -28,7 +28,7 @@ public class InputScript : MonoBehaviour
             {if(!GameManager.currentBlock.isHardDropping)
                 {
                     GameManager.currentBlock.isHardDropping = true;
-                    GameManager.audioManager.Play("Hard Drop Start");
+                    AudioManager.instance.Play("Hard Drop Start");
                 }
             };
 

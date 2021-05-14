@@ -71,7 +71,6 @@ public class GameHUD : MonoBehaviour
         
         for (int i = 0; i < nextIcons.Length; i++)
         {
-            Debug.Log("recieved" + pieces[i]);
             nextIcons[i].sprite = nextIconSprites[pieces[i + 1]];
         }
         nextIconAnimator.Play("NextIconUpdate", -1, 0);

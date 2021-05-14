@@ -107,8 +107,14 @@ public class BlockLogic : MonoBehaviour
         else{
             if (!isLockChecking)
                 Drop();
-            else
-                RegisterBlock();
+            else{
+                Drop();
+                if (!CheckValid())
+                { 
+                    transform.position += new Vector3(0,1);
+                    RegisterBlock();
+                }
+            }
         }
     }
 
@@ -127,11 +133,11 @@ public class BlockLogic : MonoBehaviour
     {
         if (isHardDropping)
         {
-            GameManager.audioManager.Play("Hard Drop End");
-            // GameManager.audioManager.Stop("Hard Drop Start");
+            AudioManager.instance.Play("Hard Drop End");
+            // AudioManager.instance.Stop("Hard Drop Start");
         }
         else
-            GameManager.audioManager.Play("Landing");
+            AudioManager.instance.Play("Landing");
         
         if (GameSettings.showNext)
             GameManager.hUD.UpdateNextIcons(GameManager.pieceQueue.ToArray());
@@ -203,7 +209,7 @@ public class BlockLogic : MonoBehaviour
         if (isFastDropping)
         {
             GameManager.hUD.AddToScore(1);
-            GameManager.audioManager.Play("Soft Drop");
+            AudioManager.instance.Play("Soft Drop");
         }
         else if (isHardDropping)
             GameManager.hUD.AddToScore(2);
@@ -221,7 +227,7 @@ public class BlockLogic : MonoBehaviour
 
     public void Hold()
     {
-        GameManager.audioManager.Play("Hold");
+        AudioManager.instance.Play("Hold");
 
         if (!GameManager.setHold) // Initial hold
             {
@@ -241,25 +247,6 @@ public class BlockLogic : MonoBehaviour
         
     }
 
-    public void MoveLeft()
-    {
-
-        transform.position -= new Vector3(1,0);
-
-        GameManager.audioManager.Play("Move");
-
-        if (isLockChecking)
-
-
-
-
-        if (!CheckValid())
-            transform.position += new Vector3(1,0);
-        
-        if (GameSettings.enableGhost)
-            UpdateGhost();
-
-    }
 
     bool SuperRotationSystem(string rotationDirection)
     {
@@ -300,12 +287,33 @@ public class BlockLogic : MonoBehaviour
         
     }
 
+    public void MoveLeft()
+    {
+
+        transform.position -= new Vector3(1,0);
+
+        AudioManager.instance.Play("Move");
+
+        if (isLockChecking)
+            movedDuringCheck = true;
+
+        if (!CheckValid())
+            transform.position += new Vector3(1,0);
+        
+        if (GameSettings.enableGhost)
+            UpdateGhost();
+
+    }
+
     public void MoveRight()
     {
 
         transform.position += new Vector3(1,0);
 
-        GameManager.audioManager.Play("Move");
+        AudioManager.instance.Play("Move");
+
+        if (isLockChecking)
+            movedDuringCheck = true;
 
         if (!CheckValid())
             transform.position -= new Vector3(1,0);
@@ -353,15 +361,19 @@ public class BlockLogic : MonoBehaviour
         //     transform.position += new Vector3(rotInfo.xAdjustment, rotInfo.yAdjustment);
         //     CheckRotation("left");
         // }  
+        
 
         if (SuperRotationSystem("left"))
         {
             rig.transform.eulerAngles += new Vector3(0,0,90);
-            GameManager.audioManager.Play("Rotate");
+            AudioManager.instance.Play("Rotate");
         }   
         else
             rotationState = previousRotation;
 
+
+        if (isLockChecking)
+            movedDuringCheck = true;
 
         if (GameSettings.enableGhost)
             UpdateGhost();
@@ -411,13 +423,14 @@ public class BlockLogic : MonoBehaviour
         if (SuperRotationSystem("right"))
         {
             rig.transform.eulerAngles -= new Vector3(0,0,90);
-            GameManager.audioManager.Play("Rotate");
+            AudioManager.instance.Play("Rotate");
         }   
         else
             rotationState = previousRotation;
 
         
-        
+        if (isLockChecking)
+            movedDuringCheck = true;
 
         if (GameSettings.enableGhost)
             UpdateGhost();

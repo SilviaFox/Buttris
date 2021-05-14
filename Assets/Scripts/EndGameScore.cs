@@ -32,7 +32,7 @@ public class EndGameScore : MonoBehaviour
 
     public void ExitGame()
     {
-        Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "Modes";
+        Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
     }
 
 }

@@ -6,22 +6,18 @@ public class GameSettings
 
     public static bool enableGrid = true;
 
-    public static bool countDownTimer = false;
-    public static float countDownTime = 60;
 
     public static string modeName = "Custom";
+    public static string gameTypeName = "Marathon";
+    public static int lineClearWinCondition = 1;
+    public static int countDownTime = 1;
+
 
     public void SetWidthAndHeight(int width, int height, bool grid)
     {
         GameManager.width = width;
         GameManager.height = height;
         enableGrid = grid;
-    }
-
-    public void SetGameplayType(bool timer, float time)
-    {
-        countDownTimer = timer;
-        countDownTime = time;
     }
 
     public void SetGameplayOptions(bool hardDrop, bool hold, bool newShowNext, bool random, bool ghost)
@@ -43,5 +39,20 @@ public class GameSettings
     public void SetModeName(string name)
     {
         modeName = name;
+    }
+
+    public void SetGameType(string name, int value)
+    {
+        gameTypeName = name;
+        switch (gameTypeName)
+        {
+            case "Ultra":
+                countDownTime = value;
+            break;
+
+            case "Sprint":
+                lineClearWinCondition = value;
+            break;
+        }
     }
 }

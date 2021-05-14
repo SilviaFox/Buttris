@@ -5,6 +5,8 @@ using UnityEngine;
 public class PresetSettings : MonoBehaviour
 {
 
+    public static PresetSettings instance;
+
     public static GameSettings gameSettings;
     [SerializeField] GameObject fadeToBlack;
     
@@ -12,9 +14,15 @@ public class PresetSettings : MonoBehaviour
     
     private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+
         DontDestroyOnLoad(this.gameObject);
         GetComponent<FadeSceneChange>();
         canvas = FindObjectOfType<Canvas>().gameObject.transform;
+        AudioManager.instance = FindObjectOfType<AudioManager>();
     }
 
     public void SetClassicSettings()
@@ -45,8 +53,9 @@ public class PresetSettings : MonoBehaviour
     {
         GameObject instFade;
         instFade = Instantiate(fadeToBlack);
+        AudioManager.instance.PlayMusic("MainTheme3", AudioManager.instance.currentSongTime);
 
         instFade.transform.SetParent(canvas);
-        instFade.GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        instFade.GetComponent<FadeSceneChange>().sceneToChangeTo = "GameTypes";
     }
 }
