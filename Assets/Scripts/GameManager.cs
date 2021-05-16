@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public static BlockLogic currentBlock;
 
     public static bool gameEnded; // If true, the game has ended
+    int lvlLinesCleared; // Lines cleared for this level, reset when over 20
 
     public static bool allowHold = true; // If false, player cannot hold
     public static bool useHeld; // If true, use the currently held block
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     bool bTBTetris; // Able to do a back-to-back Tetris
 
+    // Playspace grid
     public Transform[,] grid = new Transform[width, height];
 
     public static GameValues values = new GameValues();
@@ -50,8 +52,9 @@ public class GameManager : MonoBehaviour
     {
         ResetTimer();
 
-        dropTime = GameSettings.dropTime;
-        fastDropTime = GameSettings.fastDropTime;
+        values.level = values.startingLevel;
+        values.linesCleared = 0;
+        values.score = 0;
 
         AudioManager.instance = FindObjectOfType<AudioManager>();
         hUD = FindObjectOfType<GameHUD>();
@@ -62,10 +65,23 @@ public class GameManager : MonoBehaviour
         SevenBagGenerator();
     }
 
+    private void Start()
+    {
+        UpdateGameLevel();
+    }
+
     void Update()
     {
         if (enableTimer)
             Timer();
+    }
+
+    public void UpdateGameLevel()
+    {
+        dropTime = Mathf.Pow((0.8f-((values.level - 1)*0.007f)), values.level - 1);
+        fastDropTime = (Mathf.Pow((0.8f-((values.level - 1)*0.007f)), values.level - 1)) / 20;
+
+        hUD.UpdateLevel(values.level);
     }
 
     void Timer()
@@ -215,12 +231,15 @@ public class GameManager : MonoBehaviour
     {
         switch (GameSettings.gameTypeName)
         {
-            
-            case "Sprint":
+
+            case "Ultra":
+                // Do bugger all lmao
+            break;
+
+            default:
                 if (values.linesCleared >= GameSettings.lineClearWinCondition)
                     Fail();
             break;
-
         }
     }
 
@@ -264,6 +283,20 @@ public class GameManager : MonoBehaviour
 
         hUD.AddToScore(scoreToAdd);
 
+        // Increase levels on Marathon
+        if (GameSettings.gameTypeName == "Marathon")
+        {
+            for (int i = 0; i < clearedLines; i++)
+            {
+                lvlLinesCleared ++;
+                if (lvlLinesCleared == 20)
+                {
+                    lvlLinesCleared = 0;
+                    values.level ++;
+                    UpdateGameLevel();
+                }
+            }
+        }
         values.linesCleared += clearedLines;
         hUD.UpdateLinesCleared();
     }
@@ -294,7 +327,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
     bool IsLineComplete(int y)
     {
         for (int x = 0; x < width; x++)

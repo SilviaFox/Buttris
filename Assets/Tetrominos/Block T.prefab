@@ -50,6 +50,7 @@ MonoBehaviour:
   rig: {fileID: 12397778943337120}
   ghost: {fileID: 12397777516714475, guid: fc7f2bcd681d4f147861bde4be5888b5, type: 3}
   holdSprite: {fileID: -7791455267512016047, guid: 1b76e4d2dbcb6cd4c9afdb362de1e75d, type: 3}
+  iPiece: 0
 --- !u!1 &12397778303453154
 GameObject:
   m_ObjectHideFlags: 0

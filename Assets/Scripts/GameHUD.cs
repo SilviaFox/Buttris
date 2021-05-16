@@ -16,6 +16,8 @@ public class GameHUD : MonoBehaviour
     [SerializeField] Sprite[] nextIconSprites;
     [Space]
     [SerializeField] Text timer;
+    [Space]
+    [SerializeField] Text currentLevel;
     Animator nextIconAnimator;
     
 
@@ -52,6 +54,11 @@ public class GameHUD : MonoBehaviour
     {
         GameManager.values.score += value;
         score.text = GameManager.values.score.ToString();
+    }
+
+    public void UpdateLevel(int level)
+    {
+        currentLevel.text = "Level: " + level.ToString();
     }
 
     public void UpdateLinesCleared()

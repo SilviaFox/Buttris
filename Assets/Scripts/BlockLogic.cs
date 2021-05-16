@@ -149,7 +149,9 @@ public class BlockLogic : MonoBehaviour
         foreach (Transform subBlock in rig.transform)
         {
             if (Mathf.FloorToInt(subBlock.position.y) >= GameManager.height && !GameManager.gameEnded)    
-                gameManager.Fail();            
+                gameManager.Fail(); 
+            else if(gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] != null)
+                gameManager.Fail();           
             else if (!GameManager.gameEnded)
                 gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] = subBlock;
         }
@@ -216,10 +218,15 @@ public class BlockLogic : MonoBehaviour
 
         transform.position -= new Vector3(0,1);
 
-        if (!isLockChecking && !CheckValid() && rotInfo.valid)
+        if (!isLockChecking && !CheckValid())
         {
             transform.position += new Vector3(0,1); // if move is invalid, place the block
             isLockChecking = true;
+        }
+        else
+        {
+            isLockChecking = false;
+            movedDuringCheck = false;
         }
 
         timer = 0; // Reset timer every move

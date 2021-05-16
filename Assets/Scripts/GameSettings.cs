@@ -15,9 +15,14 @@ public class GameSettings
 
     public void SetWidthAndHeight(int width, int height, bool grid)
     {
-        GameManager.width = width;
-        GameManager.height = height;
+        GameManager.width = width ;
+        GameManager.height = height + 2; // Add 2 for the buffer zone
         enableGrid = grid;
+    }
+
+    public void SetLevel(int level)
+    {
+        GameManager.values.level = level;
     }
 
     public void SetGameplayOptions(bool hardDrop, bool hold, bool newShowNext, bool random, bool ghost)
@@ -29,12 +34,12 @@ public class GameSettings
         enableGhost = ghost;
     }
 
-    public void SetGameSpeed(float drop, float lockSpeed = 0.1f, float fastDrop = 0)
-    {
-        dropTime = drop;
-        lockDelay = lockSpeed;
-        fastDropTime = fastDrop == 0? dropTime / 20 : fastDrop;
-    }
+    // public void SetGameSpeed(float drop, float lockSpeed = 0.1f, float fastDrop = 0)
+    // {
+    //     dropTime = drop;
+    //     lockDelay = lockSpeed;
+    //     fastDropTime = fastDrop == 0? dropTime / 20 : fastDrop;
+    // }
 
     public void SetModeName(string name)
     {
@@ -51,6 +56,10 @@ public class GameSettings
             break;
 
             case "Sprint":
+                lineClearWinCondition = value;
+            break;
+
+            case "Marathon":
                 lineClearWinCondition = value;
             break;
         }

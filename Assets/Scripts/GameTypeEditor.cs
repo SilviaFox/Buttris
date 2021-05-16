@@ -38,10 +38,16 @@ public class GameTypeEditor : MonoBehaviour
         input = null;
         GameTypeSelectableInfo gameType = selections[0].GetComponent<GameTypeSelectableInfo>();
         GameTypeSelectableInfo condition = selections[1].GetComponent<GameTypeSelectableInfo>();
+        GameTypeSelectableInfo level = selections[2].GetComponent<GameTypeSelectableInfo>();
 
-        PresetSettings.gameSettings.SetGameType(gameType.currentOptions[gameType.currentSelection],
-         Int32.Parse(condition.currentOptions[condition.currentSelection]));
-         
+        // Gametype & Conditions
+        PresetSettings.gameSettings.SetGameType(gameType.currentOptions[gameType.currentSelection], // Set Gametype
+         Int32.Parse(condition.currentOptions[condition.currentSelection])); // Set Conditions for mode
+        
+        // Level
+        GameManager.values.startingLevel = Int32.Parse(level.currentOptions[level.currentSelection]);
+        
+        // Stop menu music and start game
         AudioManager.instance.StopMusic();
         AudioManager.instance.Play("Pause");
         Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";

@@ -412,3 +412,4 @@ MonoBehaviour:
   rig: {fileID: 5234818338533640266}
   ghost: {fileID: 5234818339791385345, guid: 40acf9f48e293924cade37ed550070e2, type: 3}
   holdSprite: {fileID: 9126702198814761270, guid: 1b76e4d2dbcb6cd4c9afdb362de1e75d, type: 3}
+  iPiece: 0

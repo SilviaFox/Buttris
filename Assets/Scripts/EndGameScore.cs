@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class EndGameScore : MonoBehaviour
 {
     [SerializeField] Text finalScore;
+    [SerializeField] Text finalLevel;
     [SerializeField] Text linesCleared;
     [SerializeField] Text finalTime;
 
@@ -15,6 +16,7 @@ public class EndGameScore : MonoBehaviour
     {
         finalScore.text = "Score: " + GameManager.values.score.ToString();
         linesCleared.text = "Lines: " + GameManager.values.linesCleared.ToString();
+        finalLevel.text = "Level: " + GameManager.values.level.ToString();
         // Display time
         if (GameManager.values.finalTimeMinutes != 0)
             finalTime.text = "Time: " + GameManager.values.finalTimeMinutes.ToString() + ":" +
@@ -32,6 +34,7 @@ public class EndGameScore : MonoBehaviour
 
     public void ExitGame()
     {
+        AudioManager.instance.PlayMusic("MainTheme2", 0);
         Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
     }
 
