@@ -52,6 +52,11 @@ public class BlockLogic : MonoBehaviour
     {
         GameManager.currentBlock = this;
         InputScript.input.Gameplay.Enable();
+
+        foreach (Transform subBlock in rig.transform)
+        {
+            subBlock.gameObject.GetComponent<SpriteRenderer>().sprite = CustomizableOptions.blockSkin;
+        }
     }
 
     void UpdateGhost()
@@ -134,6 +139,7 @@ public class BlockLogic : MonoBehaviour
         if (isHardDropping)
         {
             AudioManager.instance.Play("Hard Drop End");
+            StartCoroutine(GameManager.cameraMovement.CameraShake(0.1f, 0.2f));
             // AudioManager.instance.Stop("Hard Drop Start");
         }
         else

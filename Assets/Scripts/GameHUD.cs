@@ -38,6 +38,8 @@ public class GameHUD : MonoBehaviour
         holdIconAnimator = holdIcon.gameObject.GetComponent<Animator>();
         if (GameSettings.showNext)
             UpdateNextIcons(GameManager.pieceQueue.ToArray());
+
+        UpdateLinesCleared();
     }
 
     void Update()
@@ -63,7 +65,10 @@ public class GameHUD : MonoBehaviour
 
     public void UpdateLinesCleared()
     {
-        linesCleared.text = "Lines: " + GameManager.values.linesCleared;
+        if (GameSettings.lineClearWinCondition == 0 || GameSettings.gameTypeName == "Ultra")
+            linesCleared.text = "Lines: " + GameManager.values.linesCleared;
+        else // If gamemode requires you to reach a certain amount of lines
+            linesCleared.text = "Lines: " + (GameSettings.lineClearWinCondition - GameManager.values.linesCleared);
     }
 
     public void UpdateHoldIcon(Sprite newSprite)

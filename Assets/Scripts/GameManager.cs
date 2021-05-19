@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject pauseScreen;
-    public static GameObject currentPauseScreen;
 
     // These get set by Custom Settings
     public static int width = 12, height = 20;
@@ -44,6 +43,7 @@ public class GameManager : MonoBehaviour
 
     public static GameValues values = new GameValues();
     public static GameHUD hUD;
+    public static DynamicCameraMovement cameraMovement;
 
     
 
@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
 
         AudioManager.instance = FindObjectOfType<AudioManager>();
         hUD = FindObjectOfType<GameHUD>();
+
+        cameraMovement = FindObjectOfType<Camera>().GetComponent<DynamicCameraMovement>();
 
         // Initialize the piece queue.
         pieceQueue = new Queue<int>();
@@ -237,7 +239,7 @@ public class GameManager : MonoBehaviour
             break;
 
             default:
-                if (values.linesCleared >= GameSettings.lineClearWinCondition)
+                if (GameSettings.lineClearWinCondition != 0 && values.linesCleared >= GameSettings.lineClearWinCondition)
                     Fail();
             break;
         }
@@ -359,15 +361,8 @@ public class GameManager : MonoBehaviour
     {
         InputScript.input.Gameplay.Disable();
         AudioManager.instance.Play("Pause");
-        currentPauseScreen = Instantiate(pauseScreen);
+        Instantiate(pauseScreen);
         Time.timeScale = 0;
     }
 
-    public void Unpause()
-    {
-        InputScript.input.Gameplay.Enable();
-        Time.timeScale = 1;
-        Destroy(currentPauseScreen);
-        currentPauseScreen = null;
-    }
 }

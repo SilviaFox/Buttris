@@ -9,6 +9,7 @@ public class PlayGround : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+
         // Playspace - Buffer area
         transform.localScale = new Vector3(GameManager.width, GameManager.height - bufferArea);
     
@@ -30,6 +31,11 @@ public class PlayGround : MonoBehaviour
         Camera cam = FindObjectOfType<Camera>();
         cam.orthographicSize = (GameManager.height - bufferArea + GameManager.width) / 3 + 2;
         cam.transform.position = new Vector3(transform.position.x, (GameManager.height - bufferArea) / 2, -10);
+    }
+
+    void Start()
+    {
+        InputScript.input.Gameplay.Enable();
     }
 
 }

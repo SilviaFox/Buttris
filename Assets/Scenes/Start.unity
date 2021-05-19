@@ -239,7 +239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076294, y: 61.525}
+  m_AnchoredPosition: {x: 0, y: 61}
   m_SizeDelta: {x: 465.8289, y: 123.0503}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59372928
@@ -6554,7 +6554,7 @@ MonoBehaviour:
   - name: Hard Drop End
     clip: {fileID: 8300000, guid: 818ed8d6eeee7f44fb7bf6b797b757ee, type: 3}
     volume: 0.7
-    pitch: 1.1
+    pitch: 1
     loop: 0
     playOnAwake: 0
     source: {fileID: 0}

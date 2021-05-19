@@ -273,6 +273,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""TabL"",
+                    ""type"": ""Button"",
+                    ""id"": ""bfb75cb2-fab2-4206-bb6d-b54204e1f4dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TabR"",
+                    ""type"": ""Button"",
+                    ""id"": ""19a2afe1-95a8-4ccf-826b-5bed9f77b0c5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -306,6 +322,50 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c4f8f41-5e35-408a-8b0c-6dfd8b8ed1f8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TabL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c655bec-74fc-422a-99fc-ca1b808df04e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TabL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cc2a8bf-6f11-4132-8711-44167a5d0d7f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TabR"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0860c554-90f3-4b28-9d3c-d2ae69f12687"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TabR"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -485,6 +545,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Start = m_Menu.FindAction("Start", throwIfNotFound: true);
+        m_Menu_TabL = m_Menu.FindAction("TabL", throwIfNotFound: true);
+        m_Menu_TabR = m_Menu.FindAction("TabR", throwIfNotFound: true);
         // GameTypeMenu
         m_GameTypeMenu = asset.FindActionMap("GameTypeMenu", throwIfNotFound: true);
         m_GameTypeMenu_Up = m_GameTypeMenu.FindAction("Up", throwIfNotFound: true);
@@ -631,11 +693,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
     private readonly InputAction m_Menu_Start;
+    private readonly InputAction m_Menu_TabL;
+    private readonly InputAction m_Menu_TabR;
     public struct MenuActions
     {
         private @InputMaster m_Wrapper;
         public MenuActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Start => m_Wrapper.m_Menu_Start;
+        public InputAction @TabL => m_Wrapper.m_Menu_TabL;
+        public InputAction @TabR => m_Wrapper.m_Menu_TabR;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -648,6 +714,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Start.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnStart;
                 @Start.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnStart;
                 @Start.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnStart;
+                @TabL.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabL;
+                @TabL.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabL;
+                @TabL.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabL;
+                @TabR.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabR;
+                @TabR.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabR;
+                @TabR.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnTabR;
             }
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
@@ -655,6 +727,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Start.started += instance.OnStart;
                 @Start.performed += instance.OnStart;
                 @Start.canceled += instance.OnStart;
+                @TabL.started += instance.OnTabL;
+                @TabL.performed += instance.OnTabL;
+                @TabL.canceled += instance.OnTabL;
+                @TabR.started += instance.OnTabR;
+                @TabR.performed += instance.OnTabR;
+                @TabR.canceled += instance.OnTabR;
             }
         }
     }
@@ -738,6 +816,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     public interface IMenuActions
     {
         void OnStart(InputAction.CallbackContext context);
+        void OnTabL(InputAction.CallbackContext context);
+        void OnTabR(InputAction.CallbackContext context);
     }
     public interface IGameTypeMenuActions
     {

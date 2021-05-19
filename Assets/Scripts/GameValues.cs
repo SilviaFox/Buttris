@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameValues
 {
     public int score;

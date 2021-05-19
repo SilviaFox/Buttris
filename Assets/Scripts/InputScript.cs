@@ -1,18 +1,27 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(ActiveControllers))]
 public class InputScript : MonoBehaviour
 {
+    public enum InputDevice {
+        Keyboard,
+        Controller
+    }
 
     public static InputMaster input;
     GameManager gameManager;
+    bool initiatedInput;
+
+    public static InputDevice inputDevice;
     
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         input = new InputMaster();
-        gameManager = GetComponent<GameManager>();
-        // Input
 
+        
         //Movement
         input.Gameplay.Left.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.MoveLeft();};
         input.Gameplay.Right.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.MoveRight();};
@@ -35,16 +44,24 @@ public class InputScript : MonoBehaviour
         if (GameSettings.allowHold)
             input.Gameplay.Hold.started += ctx => {if(GameManager.allowHold) GameManager.currentBlock.Hold();};
         
-        input.Gameplay.Pause.started += ctx => {if (GameManager.currentPauseScreen == null) gameManager.Pause(); else gameManager.Unpause();};
+        input.Gameplay.Pause.started += ctx => {gameManager.Pause();};
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // Update the current block every frame, unless there is no block to use, in which case, spawn a new one
-        if (GameManager.currentBlock != null)
-            GameManager.currentBlock.BlockUpdate();
-        else if (!GameManager.gameEnded && !GameManager.useHeld)
-            FindObjectOfType<GameManager>().SpawnBlock();
+
+        if (gameManager != null)
+        {
+            // Update the current block every frame, unless there is no block to use, in which case, spawn a new one
+            if (GameManager.currentBlock != null)
+                GameManager.currentBlock.BlockUpdate();
+            else if (!GameManager.gameEnded && !GameManager.useHeld)
+                FindObjectOfType<GameManager>().SpawnBlock();
+        }
+        else
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
         
     }
 }
