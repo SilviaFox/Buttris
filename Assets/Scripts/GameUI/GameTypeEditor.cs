@@ -49,7 +49,7 @@ public class GameTypeEditor : MonoBehaviour
         // Stop menu music and start game
         AudioManager.instance.StopMusic();
         AudioManager.instance.Play("Pause");
-        Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
     }
 
     void UpdateSelection()

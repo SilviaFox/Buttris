@@ -55,6 +55,7 @@ public class PanelGroup : MonoBehaviour
     public void RestorePage()
     {
         panels[panelIndex].SetActive(true);
+        EventSystem.current.SetSelectedGameObject(selectedObjects[panelIndex]);
 
         subPanels[subPanelIndex].SetActive(false);
         

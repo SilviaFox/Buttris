@@ -32,7 +32,7 @@ public class StartMenu : MonoBehaviour
             gameStarted = true;
             logo.Play("LogoSelect");
             AudioManager.instance.Play("Pause");
-            Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = scene;
+            Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = scene;
             AudioManager.instance.PlayMusic("MainTheme2", AudioManager.instance.currentSongTime);
         }
     }

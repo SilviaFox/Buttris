@@ -29,13 +29,13 @@ public class EndGameScore : MonoBehaviour
 
     public void RetryGame()
     {
-        Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
     }
 
     public void ExitGame()
     {
         AudioManager.instance.PlayMusic("MainTheme2", 0);
-        Instantiate(fadeToBlack).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
+        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
     }
 
 }

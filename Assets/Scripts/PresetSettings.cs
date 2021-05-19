@@ -52,6 +52,6 @@ public class PresetSettings : MonoBehaviour
         AudioManager.instance.PlayMusic("MainTheme3", AudioManager.instance.currentSongTime);
 
         instFade.transform.SetParent(canvas);
-        instFade.GetComponent<FadeSceneChange>().sceneToChangeTo = "GameTypes";
+        instFade.transform.GetChild(0).gameObject.GetComponent<FadeSceneChange>().sceneToChangeTo = "GameTypes";
     }
 }

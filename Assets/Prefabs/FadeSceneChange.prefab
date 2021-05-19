@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3144578121580068895}
   - component: {fileID: 4751544409795844499}
   - component: {fileID: 9043460416375216834}
-  - component: {fileID: 6659806418008914937}
+  - component: {fileID: 3411243759789422922}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -76,25 +76,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &6659806418008914937
-Animator:
-  serializedVersion: 3
+--- !u!114 &3411243759789422922
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853553351734394701}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 53650b00ac92a4f4ba408db92c3ab6c0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a193807c6690647b13314b7f097b50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneToChangeTo: 
+  blackness: {fileID: 1853553351734394701}
 --- !u!1 &4515806933174710381
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +102,6 @@ GameObject:
   - component: {fileID: 8427664121180719542}
   - component: {fileID: 5083942525855851900}
   - component: {fileID: 4905658449393926867}
-  - component: {fileID: 8752615806987701220}
   m_Layer: 5
   m_Name: FadeSceneChange
   m_TagString: Untagged
@@ -196,17 +190,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8752615806987701220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4515806933174710381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a193807c6690647b13314b7f097b50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneToChangeTo:
-    m_Handle: 0
