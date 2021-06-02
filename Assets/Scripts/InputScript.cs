@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ActiveControllers))]
 public class InputScript : MonoBehaviour
@@ -14,17 +15,49 @@ public class InputScript : MonoBehaviour
     bool initiatedInput;
 
     public static InputDevice inputDevice;
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        input.Gameplay.Disable();
+        input.Menu.Disable();
+        input.GameTypeMenu.Disable();
+
+        switch (scene.name)
+        {
+            case "Start":
+                input.Menu.Enable();
+            break;
+            case "MainMenu":
+                input.Menu.Enable();
+            break;
+            case "GameTypes":
+                input.GameTypeMenu.Enable();
+            break;
+        }
+    }
+    
+    private void Awake()
+    {
+        input = new InputMaster();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
     
     // Start is called before the first frame update
     void Start()
     {
+        
         DontDestroyOnLoad(this.gameObject);
-        input = new InputMaster();
 
         
         //Movement
-        input.Gameplay.Left.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.MoveLeft();};
-        input.Gameplay.Right.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.MoveRight();};
+ 
+        input.Gameplay.Left.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.StartMove("left");};
+        input.Gameplay.Right.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.StartMove("right");};
+
+        input.Gameplay.Left.canceled += ctx => GameManager.currentBlock.StopMove("left");
+        input.Gameplay.Right.canceled += ctx => GameManager.currentBlock.StopMove("right");
+
         //Rotation
         input.Gameplay.RotateL.started += ctx => {if (!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.RotateLeft();};
         input.Gameplay.RotateR.started += ctx => {if(!GameManager.currentBlock.isHardDropping) GameManager.currentBlock.RotateRight();};
@@ -41,12 +74,13 @@ public class InputScript : MonoBehaviour
                 }
             };
 
-        if (GameSettings.allowHold)
-            input.Gameplay.Hold.started += ctx => {if(GameManager.allowHold) GameManager.currentBlock.Hold();};
         
+        input.Gameplay.Hold.started += ctx => {if(GameManager.allowHold && GameSettings.allowHold) GameManager.currentBlock.Hold();};
+        
+
         input.Gameplay.Pause.started += ctx => {gameManager.Pause();};
     }
-
+    
     void FixedUpdate()
     {
 

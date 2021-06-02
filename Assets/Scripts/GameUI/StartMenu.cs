@@ -12,17 +12,16 @@ public class StartMenu : MonoBehaviour
     [SerializeField] string scene;
     bool gameStarted;
 
-    private void Start()
+    private void OnEnable()
     {
         input = new InputMaster();
-
         input.Menu.Enable();
         input.Menu.Start.started += ctx => AnimateLogo();
 
         AudioManager.instance = FindObjectOfType<AudioManager>();
     }
 
-    void AnimateLogo()
+    public void AnimateLogo()
     {
         if (!gameStarted)
         {

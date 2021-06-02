@@ -667,7 +667,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundMixer: {fileID: 24100000, guid: de9872c9c71f66e4694425b1ddfbf17e, type: 2}
-  musicMixer: {fileID: 24100000, guid: 7c1b21856c9262949a4fd4341845429a, type: 2}
 --- !u!4 &395997802
 Transform:
   m_ObjectHideFlags: 0

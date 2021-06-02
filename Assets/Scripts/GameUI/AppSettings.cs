@@ -19,4 +19,13 @@ public class AppSettings : MonoBehaviour
         Debug.Log(soundLevel);
     }
     
+    public void SetRotationSpriteLock(bool toggle)
+    {
+        GameSettings.lockRotationSprite = toggle;
+    }
+
+    public void SetDASRepeatSpeed(float speed)
+    {
+        GameSettings.dASRepeatSpeed = speed;
+    }
 }

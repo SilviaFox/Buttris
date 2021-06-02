@@ -4,8 +4,10 @@ public class GameSettings
 
     public static float dropTime = 1, lockDelay = 0.5f, fastDropTime = 0.2f;
 
-    public static bool enableGrid = true;
+    public static float dASDelay = 0, dASRepeatSpeed = 0.1f;
 
+    public static bool enableGrid = true;
+    public static bool lockRotationSprite = false;
 
     public static string modeName = "Custom";
     public static string gameTypeName = "Marathon";

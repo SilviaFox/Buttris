@@ -35,7 +35,7 @@ public class PlayGround : MonoBehaviour
 
     void Start()
     {
-        InputScript.input.Gameplay.Enable();
+        // InputScript.input.Gameplay.Enable();
     }
 
 }

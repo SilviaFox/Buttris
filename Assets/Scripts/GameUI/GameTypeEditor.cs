@@ -14,8 +14,8 @@ public class GameTypeEditor : MonoBehaviour
 
     private void Start()
     {
-        InputScript.input.Menu.Disable();
-        InputScript.input.GameTypeMenu.Enable();
+        // InputScript.input.Menu.Disable();
+        // InputScript.input.GameTypeMenu.Enable();
         
         // Up-Down
         InputScript.input.GameTypeMenu.Down.started += ctx => {selectedArea ++; UpdateSelection();}; 

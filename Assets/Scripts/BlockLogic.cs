@@ -30,6 +30,10 @@ public class BlockLogic : MonoBehaviour
     Vector2 rotationPosition;
     [SerializeField] bool iPiece;
 
+    // DAS
+    Coroutine dASInstance = null;
+    string moveDirection;
+
     
     void Start()
     {
@@ -123,7 +127,6 @@ public class BlockLogic : MonoBehaviour
         }
     }
 
-
     void TryLock()
     {
         Drop();
@@ -136,6 +139,9 @@ public class BlockLogic : MonoBehaviour
 
     void RegisterBlock()
     {
+        if (dASInstance != null)
+            StopCoroutine(dASInstance);
+
         if (isHardDropping)
         {
             AudioManager.instance.Play("Hard Drop End");
@@ -240,6 +246,8 @@ public class BlockLogic : MonoBehaviour
 
     public void Hold()
     {
+        if (dASInstance != null)
+            StopCoroutine(dASInstance);
         AudioManager.instance.Play("Hold");
 
         if (!GameManager.setHold) // Initial hold
@@ -259,7 +267,6 @@ public class BlockLogic : MonoBehaviour
         Destroy(currentGhost);
         
     }
-
 
     bool SuperRotationSystem(string rotationDirection)
     {
@@ -300,18 +307,81 @@ public class BlockLogic : MonoBehaviour
         
     }
 
+    public void StartMove(string direction)
+    {
+        // Stop any running DAS instances
+        if (dASInstance != null)
+            StopCoroutine(dASInstance);
+        
+        // Start a new DAS instance
+        dASInstance = StartCoroutine(DAS(direction));
+    }
+
+    public void StopMove(string direction)
+    {
+        // allow for quick input switches by checking the direction of the input released
+        if (dASInstance != null && direction == moveDirection)
+            StopCoroutine(dASInstance);
+    }
+
+    public IEnumerator DAS(string direction)
+    {
+        float delay = GameSettings.dASDelay + Time.time;
+        float repeatSpeed = GameSettings.dASRepeatSpeed;
+        moveDirection = direction;
+
+        switch (direction)
+        {
+            case "left":
+                MoveLeft();
+            break;
+
+            case "right":
+                MoveRight();
+            break;
+        }
+
+        while (delay >= Time.time)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(repeatSpeed);
+
+        while (true)
+        {
+            switch (direction)
+            {
+                case "left":
+                    MoveLeft();
+                break;
+
+                case "right":
+                    MoveRight();
+                break;
+            }
+            
+            yield return new WaitForSecondsRealtime(repeatSpeed);
+        }
+
+        
+    }
+
     public void MoveLeft()
     {
 
         transform.position -= new Vector3(1,0);
 
-        AudioManager.instance.Play("Move");
+        
 
         if (isLockChecking)
             movedDuringCheck = true;
 
         if (!CheckValid())
             transform.position += new Vector3(1,0);
+        else
+            AudioManager.instance.Play("Move");
+        
         
         if (GameSettings.enableGhost)
             UpdateGhost();
@@ -323,13 +393,14 @@ public class BlockLogic : MonoBehaviour
 
         transform.position += new Vector3(1,0);
 
-        AudioManager.instance.Play("Move");
-
         if (isLockChecking)
             movedDuringCheck = true;
 
         if (!CheckValid())
+        
             transform.position -= new Vector3(1,0);
+        else
+            AudioManager.instance.Play("Move");
         
         if (GameSettings.enableGhost)
             UpdateGhost();
@@ -380,6 +451,12 @@ public class BlockLogic : MonoBehaviour
         {
             rig.transform.eulerAngles += new Vector3(0,0,90);
             AudioManager.instance.Play("Rotate");
+            // Counter-rotate subblocks
+            if (GameSettings.lockRotationSprite)
+                foreach (Transform subBlock in rig.transform)
+                {
+                    subBlock.transform.eulerAngles -= new Vector3(0,0,90);
+                }
         }   
         else
             rotationState = previousRotation;
@@ -437,6 +514,12 @@ public class BlockLogic : MonoBehaviour
         {
             rig.transform.eulerAngles -= new Vector3(0,0,90);
             AudioManager.instance.Play("Rotate");
+            // Counter-rotate subblocks
+            if (GameSettings.lockRotationSprite)
+                foreach (Transform subBlock in rig.transform)
+                {
+                    subBlock.transform.eulerAngles += new Vector3(0,0,90);
+                }
         }   
         else
             rotationState = previousRotation;
