@@ -346,7 +346,7 @@ public class BlockLogic : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSecondsRealtime(repeatSpeed);
+        yield return new WaitForSeconds(repeatSpeed);
 
         while (true)
         {
@@ -361,7 +361,7 @@ public class BlockLogic : MonoBehaviour
                 break;
             }
             
-            yield return new WaitForSecondsRealtime(repeatSpeed);
+            yield return new WaitForSeconds(repeatSpeed);
         }
 
         

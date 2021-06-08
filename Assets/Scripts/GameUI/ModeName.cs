@@ -8,6 +8,6 @@ public class ModeName : MonoBehaviour
     private void Start()
     {
         modeText = GetComponent<Text>();
-        modeText.text = GameSettings.modeName;
+        modeText.text = GameSettings.modeName + " " + GameSettings.gameTypeName;
     }
 }

@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DAS Repeat Speed
+  m_Text: DAS Repeat Delay
 --- !u!222 &10114921
 CanvasRenderer:
   m_ObjectHideFlags: 0

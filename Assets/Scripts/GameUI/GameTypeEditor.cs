@@ -4,34 +4,24 @@ using System;
 
 public class GameTypeEditor : MonoBehaviour
 {
-    
-    [SerializeField] Text[] selections; // Selectable buttons
+    public static GameTypeEditor current;
+
+    public Text[] selections; // Selectable buttons
     Font defaultFont; // Default font for the buttons
     [SerializeField] Font selectedFont; // Font used for the selected text
 
     [SerializeField] GameObject fadeToBlack;
-    int selectedArea; // Currently selected button
+    [HideInInspector] public int selectedArea; // Currently selected button
 
     private void Start()
     {
-        // InputScript.input.Menu.Disable();
-        // InputScript.input.GameTypeMenu.Enable();
-        
-        // Up-Down
-        InputScript.input.GameTypeMenu.Down.started += ctx => {selectedArea ++; UpdateSelection();}; 
-        InputScript.input.GameTypeMenu.Up.started += ctx => {selectedArea --; UpdateSelection();};
-
-        // Left-Right
-        InputScript.input.GameTypeMenu.Right.started += ctx => {if (selectedArea != selections.Length - 1) selections[selectedArea].GetComponent<GameTypeSelectableInfo>().SelectionRight(); CheckForSwaps();};
-        InputScript.input.GameTypeMenu.Left.started += ctx => {if (selectedArea != selections.Length - 1) selections[selectedArea].GetComponent<GameTypeSelectableInfo>().SelectionLeft(); CheckForSwaps();};
-
-        InputScript.input.GameTypeMenu.Start.started += ctx => {if (selectedArea == selections.Length - 1) StartGame();};
+        current = this;
 
         defaultFont = selections[0].font;
         UpdateSelection();
     }
     
-    void StartGame()
+    public void StartGame()
     {
         InputScript.input.GameTypeMenu.Disable();
 
@@ -52,7 +42,7 @@ public class GameTypeEditor : MonoBehaviour
         Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
     }
 
-    void UpdateSelection()
+    public void UpdateSelection()
     {
         AudioManager.instance.Play("Move");
 
@@ -70,7 +60,7 @@ public class GameTypeEditor : MonoBehaviour
         }
     }
 
-    void CheckForSwaps()
+    public void CheckForSwaps()
     {
 
         GameTypeSelectableInfo selectableInfo;

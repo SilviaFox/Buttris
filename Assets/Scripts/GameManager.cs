@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (enableTimer)
+        if (enableTimer && CountdownTimer.startedGame)
             Timer();
     }
 

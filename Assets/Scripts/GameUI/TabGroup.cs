@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TabGroup : MonoBehaviour
 {
+    public static TabGroup activeTabGroup;
+
     public List<NewTabButton> tabButtons;
     public Color tabIdle;
     public Color tabHover;
@@ -16,16 +18,15 @@ public class TabGroup : MonoBehaviour
 
     private void Start()
     {
-        InputScript.input.Menu.Enable();
-        InputScript.input.Menu.TabL.started += ctx => ChangeActiveTabL();
-        InputScript.input.Menu.TabR.started += ctx => ChangeActiveTabR();
+        activeTabGroup = this;
+        
         
         OnTabSelected(tabButtons[0]);
         
     }
 
     // Keyboard or Controller input for changing tabs
-    void ChangeActiveTabL()
+    public void ChangeActiveTabL()
     {
 
         if ((selectedTab.transform.GetSiblingIndex()) > 0)
@@ -37,7 +38,7 @@ public class TabGroup : MonoBehaviour
             OnTabSelected(tabButtons[transform.childCount - 1]);
         }
     }
-    void ChangeActiveTabR()
+    public void ChangeActiveTabR()
     {
 
         if (selectedTab.transform.GetSiblingIndex() < transform.childCount-1)
