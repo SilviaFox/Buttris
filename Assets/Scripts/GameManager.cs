@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     // These get set by Custom Settings
     public static int width = 12, height = 20;
+    public static int pinchHeight;
     public static float dropTime;
     public static float fastDropTime;
 
@@ -227,8 +228,26 @@ public class GameManager : MonoBehaviour
             }
         }
  
+        PinchCheck();
         ScoreFromLines(clearedLines); 
         CheckWinCondition();
+    }
+
+    void PinchCheck()
+    {
+        for (int y = pinchHeight; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x,y] != null)
+                {
+                    AudioManager.instance.Play("Pinch");
+                    return;
+                }
+            }
+        }
+
+        AudioManager.instance.Stop("Pinch");
     }
 
     void CheckWinCondition()

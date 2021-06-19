@@ -6054,6 +6054,13 @@ MonoBehaviour:
     loop: 0
     playOnAwake: 0
     source: {fileID: 0}
+  - name: Pinch
+    clip: {fileID: 8300000, guid: 318c331489e468b4d83e784075cc2db1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    playOnAwake: 0
+    source: {fileID: 0}
   music:
   - name: MainTheme1
     clip: {fileID: 8300000, guid: 36c51c438cb9fcf4687ba91d21458428, type: 3}

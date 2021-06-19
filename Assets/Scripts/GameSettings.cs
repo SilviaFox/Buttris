@@ -19,6 +19,7 @@ public class GameSettings
     {
         GameManager.width = width ;
         GameManager.height = height + 2; // Add 2 for the buffer zone
+        GameManager.pinchHeight = height - 2;
         enableGrid = grid;
     }
 
