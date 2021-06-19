@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class BlockSkinButton : MonoBehaviour
 {
-    [SerializeField] Image skinSprite;
-
     private void OnEnable()
     {
         transform.localScale = new Vector3(0,0);
@@ -13,7 +11,10 @@ public class BlockSkinButton : MonoBehaviour
 
     public void OnSelection() 
     {
-        CustomizableOptions.blockSkin = skinSprite.sprite;
+        PlayerPrefs.SetInt("BlockSkin", transform.GetSiblingIndex());
+
+        CustomizableOptions.blockSkin = CustomizationMenu.blockSkins[transform.GetSiblingIndex()];
+        CustomizationMenu.current.UpdateBlockSkinSprite();
         transform.parent.transform.parent.gameObject.GetComponent<PanelGroup>().RestorePage();
 
     }

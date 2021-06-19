@@ -246,6 +246,7 @@ public class BlockLogic : MonoBehaviour
 
     public void Hold()
     {
+        // Stop DAS
         if (dASInstance != null)
             StopCoroutine(dASInstance);
         AudioManager.instance.Play("Hold");

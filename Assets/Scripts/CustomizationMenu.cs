@@ -1,15 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CustomizationMenu : MonoBehaviour
 {
-    public Sprite defaultBlockSkin;
-    [SerializeField] Image blockSkinButton;
+    public static CustomizationMenu current;
     
+    [SerializeField] Image blockSkinButton;
+    public static Sprite[] blockSkins;
+
+    [SerializeField] GameObject skinTab;
+    [SerializeField] GameObject blockSkinSelection;
+
     // Start is called before the first frame update
-    void Awake()
+    void OnEnable()
     {
-        CustomizableOptions.blockSkin = defaultBlockSkin;
+        current = this;
         UpdateBlockSkinSprite();
     }
 

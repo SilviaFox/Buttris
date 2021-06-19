@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
     {
         ResetTimer();
 
+        setHold = false;
+
         values.level = values.startingLevel;
         values.linesCleared = 0;
         values.score = 0;
