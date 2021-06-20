@@ -40,5 +40,7 @@ public class CountdownTimer : MonoBehaviour
         AudioManager.instance.Play("GameStart");
         LeanTween.alpha(countdownPanel.rectTransform, 0, 0.2f);
         startedGame = true;
+
+        AudioManager.instance.PlayMusic("Play1");
     } 
 }

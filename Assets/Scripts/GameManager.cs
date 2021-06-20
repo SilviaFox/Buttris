@@ -181,6 +181,8 @@ public class GameManager : MonoBehaviour
 
     public void Fail()
     {
+        AudioManager.instance.Stop("Play1");
+
         if (GameSettings.gameTypeName == "Ultra")
             visualTimerSeconds = 0;
 

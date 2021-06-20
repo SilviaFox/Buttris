@@ -14,6 +14,8 @@ public class EndGameScore : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.instance.StopMusic();
+
         finalScore.text = "Score: " + GameManager.values.score.ToString();
         linesCleared.text = "Lines: " + GameManager.values.linesCleared.ToString();
         finalLevel.text = "Level: " + GameManager.values.level.ToString();
