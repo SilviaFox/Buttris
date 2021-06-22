@@ -6,7 +6,7 @@ public class PresetSettings : MonoBehaviour
     public static PresetSettings instance;
 
     public static GameSettings gameSettings;
-    [SerializeField] GameObject fadeToBlack;
+    // [SerializeField] GameObject fadeToBlack;
     
     Transform canvas;
     
@@ -47,11 +47,11 @@ public class PresetSettings : MonoBehaviour
 
     void LoadGame()
     {
-        GameObject instFade;
-        instFade = Instantiate(fadeToBlack);
+        // GameObject instFade;
+        // instFade = Instantiate(fadeToBlack);
         AudioManager.instance.PlayMusic("MainTheme3", AudioManager.instance.currentSongTime);
-
-        instFade.transform.SetParent(canvas);
-        instFade.transform.GetChild(0).gameObject.GetComponent<FadeSceneChange>().sceneToChangeTo = "GameTypes";
+        StartCoroutine(Transitions.instance.TransitionToNextScene(0.05f, "GameTypes"));
+        // instFade.transform.SetParent(canvas);
+        // instFade.transform.GetChild(0).gameObject.GetComponent<FadeSceneChange>().sceneToChangeTo = "GameTypes";
     }
 }

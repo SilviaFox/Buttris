@@ -25,7 +25,8 @@ public class PauseMenu : MonoBehaviour
     {
         InputScript.input.Gameplay.Disable();
         Time.timeScale = 1;
+        Transitions.instance.StartCoroutine(Transitions.instance.TransitionToNextScene(0.05f, "MainMenu"));
         Destroy(this.gameObject);
-        Instantiate(fadeSceneChange).transform.GetChild(0).gameObject.GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
+        // Instantiate(fadeSceneChange).transform.GetChild(0).gameObject.GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
     }
 }

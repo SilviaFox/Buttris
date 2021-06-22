@@ -9,7 +9,7 @@ public class EndGameScore : MonoBehaviour
     [SerializeField] Text linesCleared;
     [SerializeField] Text finalTime;
 
-    [SerializeField] GameObject fadeToBlack;
+    // [SerializeField] GameObject fadeToBlack;
     
 
     private void Start()
@@ -31,13 +31,15 @@ public class EndGameScore : MonoBehaviour
 
     public void RetryGame()
     {
-        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        // Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        StartCoroutine(Transitions.instance.TransitionToNextScene(0.075f, "Game"));
     }
 
     public void ExitGame()
     {
         AudioManager.instance.PlayMusic("MainTheme2", 0);
-        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
+        // Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "MainMenu";
+        StartCoroutine(Transitions.instance.TransitionToNextScene(0.05f, "MainMenu"));
     }
 
 }

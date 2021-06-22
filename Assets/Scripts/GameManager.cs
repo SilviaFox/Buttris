@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
             if (visualTimerMinutes < 0)
             {
                 visualTimerMinutes = 0;
-                Fail();
+                Fail("Time Up");
             }
         }
     }
@@ -179,13 +179,15 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void Fail()
+    public void Fail(string endType)
     {
-        AudioManager.instance.Stop("Play1");
+        Instantiate(deathScreen);
+        
 
         if (GameSettings.gameTypeName == "Ultra")
             visualTimerSeconds = 0;
 
+        DeathScreenText.SetText(endType);
         gameEnded = true;
         InputScript.input.Gameplay.Disable();
         enableTimer = false;
@@ -194,7 +196,6 @@ public class GameManager : MonoBehaviour
         values.finalTimeSeconds = visualTimerSeconds;
         values.finalTimeMinutes = visualTimerMinutes;
 
-        Instantiate(deathScreen);
     }
 
     // Set the first held block
@@ -263,7 +264,7 @@ public class GameManager : MonoBehaviour
 
             default:
                 if (GameSettings.lineClearWinCondition != 0 && values.linesCleared >= GameSettings.lineClearWinCondition)
-                    Fail();
+                    Fail("Objective Reached");
             break;
         }
     }

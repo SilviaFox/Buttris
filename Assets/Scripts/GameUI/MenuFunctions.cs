@@ -15,11 +15,11 @@ public class MenuFunctions : MonoBehaviour
 
     public void StartStandard()
     {
-        FindObjectOfType<PresetSettings>().SetStandardSettings();
+        PresetSettings.instance.SetStandardSettings();
     }
 
     public void StartClassic()
     {
-        FindObjectOfType<PresetSettings>().SetClassicSettings();
+        PresetSettings.instance.SetClassicSettings();
     }
 }

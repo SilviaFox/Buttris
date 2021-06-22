@@ -161,9 +161,9 @@ public class BlockLogic : MonoBehaviour
         foreach (Transform subBlock in rig.transform)
         {
             if (Mathf.FloorToInt(subBlock.position.y) >= GameManager.height && !GameManager.gameEnded)    
-                gameManager.Fail(); 
+                gameManager.Fail("Top Out"); 
             else if(gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] != null)
-                gameManager.Fail();           
+                gameManager.Fail("Top Out");           
             else if (!GameManager.gameEnded)
                 gameManager.grid[Mathf.FloorToInt(subBlock.position.x), Mathf.FloorToInt(subBlock.position.y)] = subBlock;
         }

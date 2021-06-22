@@ -10,7 +10,7 @@ public class GameTypeEditor : MonoBehaviour
     Font defaultFont; // Default font for the buttons
     [SerializeField] Font selectedFont; // Font used for the selected text
 
-    [SerializeField] GameObject fadeToBlack;
+    // [SerializeField] GameObject fadeToBlack;
     [HideInInspector] public int selectedArea; // Currently selected button
 
     private void Start()
@@ -39,7 +39,8 @@ public class GameTypeEditor : MonoBehaviour
         // Stop menu music and start game
         AudioManager.instance.StopMusic();
         AudioManager.instance.Play("Pause");
-        Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        // Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = "Game";
+        StartCoroutine(Transitions.instance.TransitionToNextScene(0.075f, "Game"));
     }
 
     public void UpdateSelection()

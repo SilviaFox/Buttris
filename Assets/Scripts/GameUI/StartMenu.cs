@@ -8,7 +8,7 @@ public class StartMenu : MonoBehaviour
     InputMaster input;
 
     [SerializeField] Animator logo;
-    [SerializeField] GameObject fadeToBlack;
+    // [SerializeField] GameObject fadeToBlack;
     [SerializeField] string scene;
     bool gameStarted;
 
@@ -31,7 +31,8 @@ public class StartMenu : MonoBehaviour
             gameStarted = true;
             logo.Play("LogoSelect");
             AudioManager.instance.Play("Pause");
-            Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = scene;
+            // Instantiate(fadeToBlack).transform.GetChild(0).GetComponent<FadeSceneChange>().sceneToChangeTo = scene;
+            StartCoroutine(Transitions.instance.TransitionToNextScene(0.05f, scene));
             AudioManager.instance.PlayMusic("MainTheme2", AudioManager.instance.currentSongTime);
         }
     }
