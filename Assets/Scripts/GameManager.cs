@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     [SerializeField] GameObject[] tetrominos; // List of pieces
+    [SerializeField] GameObject destroyEffect;
 
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject pauseScreen;
@@ -220,15 +221,18 @@ public class GameManager : MonoBehaviour
     public void ClearLines()
     {
         int clearedLines = 0;
-        
+
         for (int y = 0; y < height; y++) // Check the Y axis
         {
+
             while (IsLineComplete(y))
             {
+                DestroyEffect(y + clearedLines);
                 DestroyLine(y);
                 MoveLines(y);
                 clearedLines ++;
             }
+
         }
  
         PinchCheck();
@@ -335,11 +339,19 @@ public class GameManager : MonoBehaviour
             {
                 if (grid[x,i + 1] != null)
                 {
-                    grid[x,i] = grid[x,i + 1];
-                    grid[x,i + 1].gameObject.transform.position -= new Vector3(0,1);
-                    grid[x,i + 1] = null;
+                    grid[x,i] = grid[x,i + 1]; // Current line = the line above
+                    grid[x,i + 1].gameObject.transform.position -= new Vector3(0,1); // Move down 1y
+                    grid[x,i + 1] = null; // Set above to null
                 }
             }
+        }
+    }
+
+    void DestroyEffect(int y) // Display a cool effect for destroying lines
+    {
+        for (int x = 0; x < width; x++)
+        {
+            Instantiate(destroyEffect, new Vector2(x + 0.5f, y + 0.5f), new Quaternion()); 
         }
     }
 

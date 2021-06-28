@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TransitionShader
-  m_Shader: {fileID: -6465566751694194690, guid: 694ebb0e7b088024d9ba5f363a87b12f, type: 3}
+  m_Name: DestroyPiece
+  m_Shader: {fileID: -6465566751694194690, guid: c72eb3ec38bb92e42b591c38a4084c6f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 46eeae0d498dde14094545b905542419, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -36,12 +36,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_80d9488318ab4be1a5676a269a7321c6: 0
-    - Vector1_884c9ed73bcd46539c644cb2e56cdffd: 0.02
-    - Vector1_OutlineSize: 0.05
-    - Vector1_TTime: 0.52
-    - Vector1_Time: 0.52
-    - Vector1_TransitionTime: -0.16
-    - _TransitionTime: 0.074999824
-    m_Colors: []
+    - _Emission: 1.5
+    - _Fade: 0.91
+    - _Scale: 4
+    m_Colors:
+    - Color_501d193e1eaf4bd6a59e818a0798c7b7: {r: 63.057175, g: 0, b: 95.87451, a: 1}
   m_BuildTextureStacks: []
