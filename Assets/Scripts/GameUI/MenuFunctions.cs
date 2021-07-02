@@ -8,9 +8,9 @@ public class MenuFunctions : MonoBehaviour
         Application.Quit();
     }
 
-    public void Settings()
+    public void Custom()
     {
-        SceneManager.LoadScene("Settings");
+        Transitions.instance.StartCoroutine(Transitions.instance.TransitionToNextScene(0.05f, "CustomMenu"));
     }
 
     public void StartStandard()

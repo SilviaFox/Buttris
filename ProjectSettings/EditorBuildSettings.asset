@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameTypes.unity
     guid: f46c3b52b52d3cb44974681ed837f233
   - enabled: 1
+    path: Assets/Scenes/CustomMenu.unity
+    guid: f9b8eaa0fe3cce14abcf4ec0e0d57e2c
+  - enabled: 1
     path: Assets/Scenes/EndGame.unity
     guid: 2ae0315a8acf76b43aa02d951ba89bfe
   m_configObjects: {}

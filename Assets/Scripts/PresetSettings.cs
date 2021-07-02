@@ -45,7 +45,7 @@ public class PresetSettings : MonoBehaviour
         LoadGame();
     }
 
-    void LoadGame()
+    public void LoadGame()
     {
         // GameObject instFade;
         // instFade = Instantiate(fadeToBlack);

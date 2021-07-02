@@ -29,7 +29,7 @@ public class PlayGround : MonoBehaviour
             }
 
         Camera cam = FindObjectOfType<Camera>();
-        cam.orthographicSize = (GameManager.height - bufferArea + GameManager.width) / 3 + 2;
+        cam.orthographicSize = (GameManager.height - bufferArea + GameManager.width) / 2.2f + 2;
         cam.transform.position = new Vector3(transform.position.x, (GameManager.height - bufferArea) / 2, -10);
     }
 

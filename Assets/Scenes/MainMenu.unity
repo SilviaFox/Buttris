@@ -320,7 +320,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 62887111}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1863164765}
+        m_TargetAssemblyTypeName: MenuFunctions, Assembly-CSharp
+        m_MethodName: Custom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &62887111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9189,7 +9201,7 @@ MonoBehaviour:
   fitType: 1
   rows: 1
   columns: 2
-  cellSize: {x: 383.86584, y: 294}
+  cellSize: {x: 383.1325, y: 294}
   spacing: {x: 0, y: 0}
   fitX: 1
   fitY: 1
